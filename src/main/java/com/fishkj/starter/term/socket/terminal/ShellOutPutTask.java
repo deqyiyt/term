@@ -8,6 +8,11 @@ import com.fishkj.starter.term.utils.WebSshUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 执行shell命令
+ * @date: 2019年12月25日 上午12:39:58
+ * @author: jiuzhou.hu
+ */
 @Slf4j
 public class ShellOutPutTask extends Thread {
 	

@@ -14,6 +14,11 @@ import com.fishkj.starter.term.socket.Machine;
 
 import ch.ethz.ssh2.Connection;
 
+/**
+ * shell 控制台
+ * @date: 2019年12月25日 上午12:39:44
+ * @author: jiuzhou.hu
+ */
 public class SshClient {
 	
 	private Connection conn;

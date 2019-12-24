@@ -12,8 +12,13 @@ import com.fishkj.starter.term.utils.JsonUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 消息类型枚举
+ * @date: 2019年12月25日 上午12:42:06
+ * @author: jiuzhou.hu
+ */
 @Slf4j
-public enum SftpTyue  implements SftpCommand {
+public enum SftpTyue implements SftpCommand {
 	UP("up","上一级") {
 		@Override
 		public void exec(Session session, SftpClient client, SftpMessage message) throws IOException {

@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fishkj.starter.term.utils.Utils;
 
+/**
+ * 读取静态资源
+ * @date: 2019年12月25日 上午12:50:49
+ * @author: jiuzhou.hu
+ */
 @RestController
 public class TermResourceController {
 	
