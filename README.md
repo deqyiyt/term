@@ -32,9 +32,9 @@
 </dependency>
 ```
 ## 相关截图
-![列表](https://www.fishkj.com/images/github/list.png "列表")
-![shell控制台](https://www.fishkj.com/images/github/terminal.png "shell控制台")
-![ftp控制台](https://www.fishkj.com/images/github/sftp.png "ftp控制台")
+![image](https://github.com/deqyiyt/term/raw/master/images/list.png)
+![image](https://github.com/deqyiyt/term/raw/master/images/terminal.png)
+![image](https://github.com/deqyiyt/term/raw/master/images/sftp.png)
 
 ## 许可证
 
