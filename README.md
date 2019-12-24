@@ -32,4 +32,12 @@
 </dependency>
 ```
 ## 相关截图
-![image](https://github.com/deqyiyt/term/blob/master/images/list.png)
+![列表](https://www.fishkj.com/images/github/list.png "列表")
+![shell控制台](https://www.fishkj.com/images/github/terminal.png "shell控制台")
+![ftp控制台](https://www.fishkj.com/images/github/sftp.png "ftp控制台")
+
+## 许可证
+
+[Apache License 2.0](https://github.com/deqyiyt/term/blob/master/LICENSE)
+
+Copyright (c) 2019-2020 hujiuzhou
