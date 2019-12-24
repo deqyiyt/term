@@ -84,7 +84,9 @@ public class TerminalServer {
      */
     @OnClose
     public void onClose() {
-    	log.error("连接关闭");
+    	if(log.isErrorEnabled()) {
+    		log.error("连接关闭");
+    	}
         //从set中删除
         webSocketSet.remove(this);
         //关闭连接
@@ -99,6 +101,9 @@ public class TerminalServer {
      **/
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
+    	if(log.isDebugEnabled()) {
+    		log.debug("收到消息 {}", message);
+    	}
     	//处理连接
 		try {
 			//当客户端不为空的情况

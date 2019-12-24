@@ -48,7 +48,7 @@
 <script type="text/javascript">
 	$('.btn-send').click(function(){
 		$cmd = $('#cmd').val();
-		webSocket.send($cmd);
+		webSocket.send($cmd + "\n");
 		$('#cmd').val("");
 	})
 	
