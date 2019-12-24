@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW"/>
+	<link rel="stylesheet" href="/term/layui/css/layui.css">
+</head>
+<body>
+	<form action="" class="layui-form" style="padding: 20px 30px 0 0;">
+	<input type="hidden" name="id" value="$!{command.id}"/>
+		<div class="layui-form-item">
+			<label class="layui-form-label">服务器名称</label>
+			<div class="layui-input-block">
+				<input type="text" name="serverName" value="$!{command.serverName}" placeholder="请输入服务器名称" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">HOST</label>
+			<div class="layui-input-block">
+				<input type="text" name="hostName" value="$!{command.hostName}" placeholder="请输入HOST" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">POST</label>
+			<div class="layui-input-block">
+				<input type="text" name="port" value="$!{command.port}" placeholder="请输入POST，默认22端口" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户名</label>
+			<div class="layui-input-block">
+				<input type="text" name="userName" value="$!{command.userName}" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">密码</label>
+			<div class="layui-input-block">
+				<input type="password" name="pwd" value="$!{command.pwd}" placeholder="请输入密码" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item layui-hide">
+			<input type="button" lay-submit lay-filter="form-submit" id="btn-submit" value="确认"/>
+	    </div>
+	</form>
+	<script src="/term/layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(["laydate", "form"], function() {
+			var form = layui.form, $ = layui.$;
+			
+			// 监听提交
+		    form.on('submit(form-submit)', function(data) {
+				var field = data.field; //获取提交的字段
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				
+				$.ajax({
+					url: "/term"
+					,type: 'PUT'
+					,data: JSON.stringify(field)
+					,contentType: 'application/json'
+					,beforeSend:function(xhr,opt) {
+						this.layerIndex = parent.layer.load(1, {shade: [0.8, '#393D49']});
+					}
+					,complete: function(xhr, ts) {
+						parent.layer.close(this.layerIndex);
+					}
+					,success: function(data) {
+						parent.layui.table.reload('layuiTable'); //重载表格
+						parent.layer.msg(data);
+						parent.layer.close(index); //再执行关闭 
+					}
+					,error: function(request, status, errorThrown) {
+						if(request.responseJSON) {
+							layer.msg(request.responseJSON.message,{time: 3000,offset: '15em'});
+						} else {
+							layer.msg("系统错误！",{time: 3000,offset: '15em'});
+						}
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

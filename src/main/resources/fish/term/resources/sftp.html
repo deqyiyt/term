@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW"/>
+	<link rel="stylesheet" href="/term/layui/css/layui.css">
+	<title>控制终端</title>
+	<style type="text/css">
+		.layui-table-cell .layui-form-checkbox[lay-skin=primary] {
+		    top: 6px;
+		}
+		body {
+			overflow-x:hidden; 
+		}
+	</style>
+</head>
+<body>
+	<div style="background-color: #F2F2F2;">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header layui-form-pane" style="padding-top: 20px;">
+						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">路径</label>
+								<div class="layui-input-inline">
+									<input type="text" name="path" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-inline">
+								<button class="layui-btn layui-btn-sm" id="btn-search"><i class="layui-icon">&#xe615;</i> 搜索</button>
+							</div>
+						</div>
+					</div>
+					<div class="layui-card-body">
+						<div class="layui-tab-content">
+							<table class="layui-hide" id="layuiTable" lay-filter="layuiTable"></table>
+							<script type="text/html" id="toolbar">
+								<div class="layui-btn-container toolbar-btn">
+									<a class="layui-btn layui-btn-sm" lay-event="addfile"><i class="layui-icon">&#xe608;</i> 文件</a>
+									<a class="layui-btn layui-btn-sm" lay-event="addfolder"><i class="layui-icon">&#xe608;</i> 文件夹</a>
+									<a class="layui-btn layui-btn-sm" lay-event="delete"><i class="layui-icon">&#xe640;</i> 删除</a>
+								</div>
+							</script>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="/term/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['laypage','layer', 'table', 'jquery'], function(){
+	var layer = layui.layer
+	  ,table = layui.table
+	  ,$ = layui.jquery;
+	
+	
+	var loadTable = function(data) {
+		table.render({
+			elem: '#layuiTable'
+			,height: "full-135"
+			,toolbar: '#toolbar'
+			,defaultToolbar:['exports']
+			,data: data
+			,limit:data.length
+			,page:false
+			,cols: [[ //表头
+				{type: 'checkbox', fixed: 'left'}
+				,{field: 'filename', title: '文件名', sort: true, fixed: 'left',templet:function(d) {
+					if(d["up"]) {
+						return '<a lay-event="up" style="color:#10A8FF;cursor:pointer;">'+d.filename+'</a>';
+					} else if(d.directory) {
+						return '<a lay-event="folder" style="color:#10A8FF;cursor:pointer;"><i class="layui-icon">&#xe61d;</i> '+d.filename+'</a>';
+					} else {
+						return '<i class="layui-icon">&#xe621;</i> '+d.filename;
+					}
+				}}
+				,{field: 'size', title: '大小', sort: true}
+				,{field: 'mtime', title: '修改时间', sort: true}
+				,{field: 'strPermissions', title: '权限', sort: true}
+				,{fixed:"right",title:"操作",width:160,templet:function(d) {
+					var _btns = new Array();
+					if(!d["up"]) {
+						_btns.push('<a class="layui-btn layui-btn-xs" lay-event="update">修改</a>');
+						if(!d.directory) {
+							_btns.push('<a target="_blank" href="/term/sftp/download/${sid}/'+d.filename+'" class="layui-btn layui-btn-warm layui-btn-xs">下载</a>');
+						}
+						_btns.push('<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>');
+					}
+					
+					return _btns.join("");
+				}}
+			]]
+		});
+	}
+	loadTable(new Array());
+	
+	$("#btn-search").on("click", function() {
+		webSocket.send(JSON.stringify({
+			"tyue":"query"
+			,"dir":$("input[name='path']").val()
+		}));
+	});
+	
+	// 监听行工具事件
+	table.on("tool(layuiTable)", function(obj) {
+		var data = obj.data;
+		switch(obj.event){
+			case 'update':
+				layer.open({
+					type: 1
+					,title: "修改文件名 - " + data.filename
+					,shadeClose: true
+					,shade: 0.3
+					,maxmin: false
+					,btn: ['确定', '取消']
+					,area: ['350px', '200px']
+					,content: '<div class="layui-form-item" style="padding-top: 20px;">'
+							+'	<div class="layui-inline">'
+							+'			<label class="layui-form-label">新文件名称</label>'
+							+'			<div class="layui-input-inline">'
+							+'				<input type="text" name="newfileName"  placeholder="请输入新文件名称" autocomplete="off" class="layui-input">'
+							+'			</div>'
+							+'		</div>'
+							+'</div>'
+					,yes: function(index, layero){
+						var fileName = $("input[name='newfileName']").val();
+						if(fileName == "") {
+							layer.tips('新文件名称不能为空！', "input[name='newfileName']");
+						} else {
+							layer.close(index);
+							webSocket.send(JSON.stringify({
+								"tyue":"update"
+								,"fileName":data.filename
+								,"newName":fileName
+							}));
+						}
+					}
+				});
+				break;
+			case 'delete':
+				layer.msg("确定删除 <span style='color:red'>" + data.filename + "</span> 吗？", {
+					time : 0 // 不自动关闭
+					,btn : ["确定","取消"]
+					,yes : function(ind) {
+						layer.close(ind);
+						webSocket.send(JSON.stringify({
+							"tyue":"remove"
+							,"fileName": data.filename
+							,"directory": data.directory
+						}));
+					}
+				});
+				break;
+			case 'up':
+				webSocket.send(JSON.stringify({
+					"tyue":"up"
+				}));
+				break;
+			case 'folder':
+				webSocket.send(JSON.stringify({
+					"tyue":"query"
+					,"dir":$("input[name='path']").val() + "/" + data.filename
+				}));
+				break;
+			default:
+				break;
+		}
+	});
+	
+	//监听头工具栏事件
+	table.on('toolbar(layuiTable)', function(obj){
+		var checkStatus = table.checkStatus(obj.config.id)
+		,data = checkStatus.data; //获取选中的数据
+		switch(obj.event){
+			case 'addfile':
+				layer.open({
+					type: 1
+					,title: "创建文件"
+					,shadeClose: true
+					,shade: 0.3
+					,maxmin: false
+					,btn: ['确定', '取消']
+					,area: ['350px', '200px']
+					,content: '<div class="layui-form-item" style="padding-top: 20px;">'
+							+'	<div class="layui-inline">'
+							+'			<label class="layui-form-label">文件名称</label>'
+							+'			<div class="layui-input-inline">'
+							+'				<input type="text" name="addfileName"  placeholder="请输入新文件名称" autocomplete="off" class="layui-input">'
+							+'			</div>'
+							+'		</div>'
+							+'</div>'
+					,yes: function(index, layero){
+						var fileName = $("input[name='addfileName']").val();
+						if(fileName == "") {
+							layer.tips('文件名不能为空！', "input[name='addfileName']");
+						} else {
+							layer.close(index);
+							webSocket.send(JSON.stringify({
+								"tyue":"addfile"
+								,"fileName":fileName
+							}));
+						}
+					}
+				});
+				break;
+			case 'addfolder':
+				layer.open({
+					type: 1
+					,title: "创建文件夹"
+					,shadeClose: true
+					,shade: 0.3
+					,maxmin: false
+					,btn: ['确定', '取消']
+					,area: ['350px', '200px']
+					,content: '<div class="layui-form-item" style="padding-top: 20px;">'
+							+'	<div class="layui-inline">'
+							+'			<label class="layui-form-label">文件夹名称</label>'
+							+'			<div class="layui-input-inline">'
+							+'				<input type="text" name="addfolderName"  placeholder="请输入新文件夹名称" autocomplete="off" class="layui-input">'
+							+'			</div>'
+							+'		</div>'
+							+'</div>'
+					,yes: function(index, layero){
+						var fileName = $("input[name='addfolderName']").val();
+						if(fileName == "") {
+							layer.tips('文件夹名称不能为空！', "input[name='addfolderName']");
+						} else {
+							layer.close(index);
+							webSocket.send(JSON.stringify({
+								"tyue":"addfolder"
+								,"fileName":fileName
+							}));
+						}
+					}
+				});
+				break;
+			case 'delete':
+				layer.msg("确定删除选择的文件吗？", {
+					time : 0 // 不自动关闭
+					,btn : ["确定","取消"]
+					,yes : function(ind) {
+						layer.close(ind);
+						var array = new Array();
+						$.each(data, function() {
+							webSocket.send(JSON.stringify({
+								"tyue":"remove"
+								,"fileName": this.filename
+								,"directory": this.directory
+							}));
+						});
+						
+					}
+				});
+				break;
+			default:
+				break;
+		}
+	});
+	
+	var wsPath = "";
+	if (window.location.protocol === 'http:') {
+		wsPath = 'ws://' + window.location.host;
+    } else {
+    	wsPath = 'wss://' + window.location.host;
+    }
+
+	var webSocket = new WebSocket(wsPath + "/term/sftp/${sid}/${id}");
+	
+	webSocket.onerror = function(event) {
+		console.log("Connection error.");
+	};
+	
+	webSocket.onopen = function(event) {
+		console.log("Connection open.");
+	};
+	
+	webSocket.onmessage = function(event) {
+		var json = JSON.parse(event.data);
+		var data = json["files"];
+		if(json["currentCatalog"]) {
+			$("input[name='path']").val(json["currentCatalog"]);
+		}
+		if(data) {
+			if(json["currentCatalog"] != "/") {
+				data.unshift({
+					"filename": "..",
+					"size": "",
+					"intPermissions": "",
+					"strPermissions": "",
+					"octalPermissions": "",
+					"mtime": "",
+					"up":true
+				});
+			}
+			loadTable(data);
+		} else {
+			loadTable(new Array());
+		}
+	};
+	
+	webSocket.onclose = function(event) {
+		console.log("Connection close.");
+	};
+});
+</script>
+</html>
