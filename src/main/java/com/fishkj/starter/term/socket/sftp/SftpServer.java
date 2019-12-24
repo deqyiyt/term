@@ -23,6 +23,11 @@ import com.fishkj.starter.term.utils.JsonUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * ftp websocket 控制器
+ * @date: 2019年12月25日 上午12:40:23
+ * @author: jiuzhou.hu
+ */
 @Component
 @ServerEndpoint(value="/term/sftp/{sid}/{id}")
 @Slf4j

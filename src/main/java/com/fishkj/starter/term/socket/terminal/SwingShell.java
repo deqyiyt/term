@@ -31,19 +31,11 @@ import ch.ethz.ssh2.ServerHostKeyVerifier;
 import ch.ethz.ssh2.Session;
 
 /**
- *
- * This is a very primitive SSH-2 dumb terminal (Swing based).
- * 
- * The purpose of this class is to demonstrate:
- * 
- * - Verifying server hostkeys with an existing known_hosts file
- * - Displaying fingerprints of server hostkeys
- * - Adding a server hostkey to a known_hosts file (+hashing the hostname for security) 
- * - Authentication with DSA, RSA, password and keyboard-interactive methods
- *
+ * swing 窗口控制器
+ * @date: 2019年12月25日 上午12:39:13
+ * @author: jiuzhou.hu
  */
-public class SwingShell
-{
+public class SwingShell {
 
 	/* 
 	 * NOTE: to get this feature to work, replace the "tilde" with your home directory,

@@ -27,6 +27,11 @@ import ch.ethz.ssh2.SFTPv3FileAttributes;
 import ch.ethz.ssh2.SFTPv3FileHandle;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * ftp控制台
+ * @date: 2019年12月25日 上午12:41:36
+ * @author: jiuzhou.hu
+ */
 @Slf4j
 public class SftpClient {
 	

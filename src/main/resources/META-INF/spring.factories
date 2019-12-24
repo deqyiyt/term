@@ -1,4 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.fishkj.starter.term.configuration.TermConfiguration,\
-com.fishkj.starter.term.configuration.TermWebSocketConfiguration
+com.fishkj.starter.term.configuration.TermPersistConfiguration,\
+com.fishkj.starter.term.configuration.TermConfiguration

@@ -23,6 +23,11 @@ import com.fishkj.starter.term.utils.Utils;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 服务器配置
+ * @date: 2019年12月25日 上午12:49:06
+ * @author: jiuzhou.hu
+ */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TermController {
@@ -33,12 +38,24 @@ public class TermController {
 	@Value("${fish.term.resource:fish/term/resources}")
 	private String resourcePath;
 
+	/**
+	 * 列表页
+	 * @author jiuzhou.hu
+	 * @date 2019年12月25日 上午12:49:15
+	 * @return
+	 */
 	@GetMapping(value= "/term", produces="text/html; charset=utf-8")
 	public String home() {
 		String filePath = resourcePath + "/index.html";
 		return Utils.readFromResource(filePath);
 	}
 	
+	/**
+	 * 列表数据
+	 * @author jiuzhou.hu
+	 * @date 2019年12月25日 上午12:49:22
+	 * @return
+	 */
 	@PostMapping(value= "/term.json")
 	public Map<String, Object> listData() {
 		List<Machine> data = machineService.list();
@@ -49,6 +66,14 @@ public class TermController {
 		return result;
 	}
 	
+	/**
+	 * 根据ID查询
+	 * @author jiuzhou.hu
+	 * @date 2019年12月25日 上午12:49:31
+	 * @param id	允许为空，为空时new一个对象
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value= {"/term/get", "/term/get/{id}"}, produces="text/html; charset=utf-8")
 	public String get(@PathVariable(value="id", required=false) String id, ModelMap model) {
 		String filePath = resourcePath + "/get.html";
@@ -57,12 +82,26 @@ public class TermController {
 		return velocityManager.parseVMContent(Utils.readFromResource(filePath), parameters);
 	}
 	
+	/**
+	 * 新增/保存配置
+	 * @author jiuzhou.hu
+	 * @date 2019年12月25日 上午12:50:13
+	 * @param machine
+	 * @return
+	 */
 	@PutMapping(value= "/term")
 	public HttpEntity<String> save(@RequestBody Machine machine) {
 		machineService.saveOrUpdate(machine);
 		return new HttpEntity<String>("success");
 	}
 	
+	/**
+	 * 根据ID删除配置
+	 * @author jiuzhou.hu
+	 * @date 2019年12月25日 上午12:50:25
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping(value= "/term/{id}")
 	public HttpEntity<String> remove(@PathVariable(value="id") String id) {
 		machineService.remove(id);

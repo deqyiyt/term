@@ -1,5 +1,12 @@
 # Web ssh shell & sftp
-基于springboot插件式开发web shell和sftp控制台，数据库默认采用hsqldb，ORM采用springjpa，前端框架采用layui，使用websocket进行数据交互
+基于springboot插件式开发web shell和sftp控制台，目前仅支持linux使用用户名和密码访问
+
+## 使用技术&框架
+- 后端：springboot 2.x，理论上使用springboot 1.x也可以
+- 前端：layui
+- 通信：websocket
+- 数据库：默认采用hsqldb
+- ORM：springjpa
 
 ## 使用方式
 1. 执行test中的Application

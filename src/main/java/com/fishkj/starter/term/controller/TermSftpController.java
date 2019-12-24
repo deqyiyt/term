@@ -20,6 +20,11 @@ import com.fishkj.starter.term.utils.Utils;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * sftp控制器
+ * @date: 2019年12月25日 上午12:51:02
+ * @author: jiuzhou.hu
+ */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TermSftpController {
@@ -29,6 +34,13 @@ public class TermSftpController {
 	@Value("${fish.term.resource:fish/term/resources}")
 	private String resourcePath;
 	
+	/**
+	 * sftp 控制台
+	 * @author jiuzhou.hu
+	 * @date 2019年12月25日 上午12:51:11
+	 * @param id
+	 * @return
+	 */
 	@GetMapping(value= "/term/sftp/{id}")
 	public String sftp(@PathVariable(value="id") String id) {
 		Map<String, Object> parameters = new HashMap<>();
@@ -38,6 +50,15 @@ public class TermSftpController {
 		return velocityManager.parseVMContent(Utils.readFromResource(filePath), parameters);
 	}
 	
+	/**
+	 * 下载文件
+	 * @author jiuzhou.hu
+	 * @date 2019年12月25日 上午12:51:29
+	 * @param sid
+	 * @param fileName
+	 * @return
+	 * @throws IOException
+	 */
 	@GetMapping(value= "/term/sftp/download/{sid}/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public byte[] download(@PathVariable(value="sid") String sid, @PathVariable(value="fileName") String fileName) throws IOException {
 		Optional<SftpClient> opt = SftpServer.getSftpClient(sid);

@@ -6,6 +6,11 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 初始化Velocity环境
+ * @date: 2019年12月25日 上午12:34:13
+ * @author: jiuzhou.hu
+ */
 @Slf4j
 @Component
 public class VelocityRunner implements CommandLineRunner {

@@ -21,6 +21,11 @@ import com.fishkj.starter.term.spring.SpringApplicationContextUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * shell websocket 控制器
+ * @date: 2019年12月25日 上午12:38:12
+ * @author: jiuzhou.hu
+ */
 @Component
 @ServerEndpoint(value="/term/terminal/{id}")
 @Slf4j
