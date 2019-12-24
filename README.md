@@ -1,5 +1,5 @@
 # Web ssh shell & sftp
-基于springboot插件式开发web shell和sftp控制台，数据库默认采用hsqldb，ORM采用springjpa，前端框架采用layui
+基于springboot插件式开发web shell和sftp控制台，数据库默认采用hsqldb，ORM采用springjpa，前端框架采用layui，使用websocket进行数据交互
 
 ## 使用方式
 1. 执行test中的Application
@@ -32,8 +32,11 @@
 </dependency>
 ```
 ## 相关截图
+- 列表
 ![image](https://github.com/deqyiyt/term/raw/master/images/list.png)
+- shell 控制台
 ![image](https://github.com/deqyiyt/term/raw/master/images/terminal.png)
+- ftp 控制台
 ![image](https://github.com/deqyiyt/term/raw/master/images/sftp.png)
 
 ## 许可证
