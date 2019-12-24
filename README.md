@@ -32,4 +32,4 @@
 </dependency>
 ```
 ## 相关截图
-![image]（https://github.com/deqyiyt/term/blob/master/images/list.png）
+![image](https://github.com/deqyiyt/term/raw/master/images/list.png)
