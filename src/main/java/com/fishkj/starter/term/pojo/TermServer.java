@@ -58,4 +58,10 @@ public class TermServer implements Serializable {
 	 * 登录端口号
 	 */
 	private Integer port;
+	
+	/**
+	 * 备注说明
+	 */
+	@Column(length=1000)
+	private String remark;
 }

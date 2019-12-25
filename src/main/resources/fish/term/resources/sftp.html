@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW"/>
-	<link rel="stylesheet" href="/term/layui/css/layui.css">
+	<link rel="stylesheet" href="/term/res/layui/css/layui.css">
 	<title>控制终端</title>
 	<style type="text/css">
 		.layui-table-cell .layui-form-checkbox[lay-skin=primary] {
@@ -51,10 +51,12 @@
 		</div>
 	</div>
 </body>
-<script src="/term/layui/layui.js"></script>
+<script src="/term/res/layui/layui.js"></script>
 <script src="/term/csrf.js"></script>
 <script type="text/javascript">
-layui.use(['laypage','layer', 'table', "upload", 'jquery'], function(){
+layui.config({
+	"base":"/term/res/layui/lay/kit/"
+}).use(['laypage','layer', 'table', "upload", 'jquery', "commons"], function(){
 	var layer = layui.layer
 	  ,table = layui.table
 	  ,upload = layui.upload

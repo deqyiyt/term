@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fishkj.starter.term.utils.JsonUtils;
@@ -22,48 +23,49 @@ import com.fishkj.starter.term.utils.Utils;
  * @author: jiuzhou.hu
  */
 @RestController
+@RequestMapping(value="/term")
 public class TermResourceController {
 	
 	@Value("${fish.term.resource:fish/term/resources}")
 	private String resourcePath;
 	
-	@GetMapping(value= "/term/**//{path:.+}.css", produces="text/css;charset=utf-8")
+	@GetMapping(value= "/res/**//{path:.+}.css", produces="text/css;charset=utf-8")
 	public String css(HttpServletRequest request) {
-		String filePath = resourcePath + request.getServletPath().replace("/term", "");
+		String filePath = resourcePath + request.getServletPath().replace("/term/res", "");
 		return Utils.readFromResource(filePath);
 	}
 	
-	@GetMapping(value= "/term/**//{path:.+}.js", produces="text/javascript;charset=utf-8")
+	@GetMapping(value= "/res/**//{path:.+}.js", produces="text/javascript;charset=utf-8")
 	public String js(HttpServletRequest request) {
-		String filePath = resourcePath + request.getServletPath().replace("/term", "");
+		String filePath = resourcePath + request.getServletPath().replace("/term/res", "");
 		return Utils.readFromResource(filePath);
 	}
 	
-	@GetMapping(value= {"/term/**//{path:.+}.jpg"}, produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(value= {"/res/**//{path:.+}.jpg"}, produces = MediaType.IMAGE_JPEG_VALUE)
 	public byte[] jpeg(HttpServletRequest request) throws IOException {
-		String filePath = resourcePath + request.getServletPath().replace("/term", "");
+		String filePath = resourcePath + request.getServletPath().replace("/term/res", "");
 		return Utils.readByteArrayFromResource(filePath);
 	}
 	
-	@GetMapping(value= {"/term/**//{path:.+}.gif"}, produces = MediaType.IMAGE_GIF_VALUE)
+	@GetMapping(value= {"/res/**//{path:.+}.gif"}, produces = MediaType.IMAGE_GIF_VALUE)
 	public byte[] gif(HttpServletRequest request) throws IOException {
-		String filePath = resourcePath + request.getServletPath().replace("/term", "");
+		String filePath = resourcePath + request.getServletPath().replace("/term/res", "");
 		return Utils.readByteArrayFromResource(filePath);
 	}
 	
-	@GetMapping(value= {"/term/**//{path:.+}.png"}, produces = MediaType.IMAGE_PNG_VALUE)
+	@GetMapping(value= {"/res/**//{path:.+}.png"}, produces = MediaType.IMAGE_PNG_VALUE)
 	public byte[] png(HttpServletRequest request) throws IOException {
-		String filePath = resourcePath + request.getServletPath().replace("/term", "");
+		String filePath = resourcePath + request.getServletPath().replace("/term/res", "");
 		return Utils.readByteArrayFromResource(filePath);
 	}
 	
-	@GetMapping(value= {"/term/**//{path:.+}.woff", "/term/**//{path:.+}.woff2", "/term/**//{path:.+}.ttf"}, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@GetMapping(value= {"/res/**//{path:.+}.woff", "/res/**//{path:.+}.woff2", "/res/**//{path:.+}.ttf"}, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public byte[] stream(HttpServletRequest request) throws IOException {
-		String filePath = resourcePath + request.getServletPath().replace("/term", "");
+		String filePath = resourcePath + request.getServletPath().replace("/term/res", "");
 		return Utils.readByteArrayFromResource(filePath);
 	}
 	
-	@GetMapping(value="/term/csrf.js", produces="application/javascript; charset=utf-8")
+	@GetMapping(value="/csrf.js", produces="application/javascript; charset=utf-8")
     public String fishkjConfig(CsrfToken token) {
     	StringBuffer srcipt = new StringBuffer("var fish = fish||{};");
     	Map<String, Object> map = new HashMap<>();

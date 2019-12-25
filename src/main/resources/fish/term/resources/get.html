@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW"/>
-	<link rel="stylesheet" href="/term/layui/css/layui.css">
+	<link rel="stylesheet" href="/term/res/layui/css/layui.css">
 	<headers>
         <frame-options policy="SAMEORIGIN"/>
     </headers>
@@ -42,14 +42,22 @@
 				<input type="password" name="pwd" value="$!{command.pwd}" placeholder="请输入密码" autocomplete="off" class="layui-input">
 			</div>
 		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea name="remark" placeholder="请输入备注说明" class="layui-textarea" autocomplete="off">$!{command.remark}</textarea>
+			</div>
+		</div>
 		<div class="layui-form-item layui-hide">
 			<input type="button" lay-submit lay-filter="form-submit" id="btn-submit" value="确认"/>
 	    </div>
 	</form>
-	<script src="/term/layui/layui.js"></script>
+	<script src="/term/res/layui/layui.js"></script>
 	<script src="/term/csrf.js"></script>
 	<script type="text/javascript">
-		layui.use(["laydate", "form"], function() {
+		layui.config({
+			"base":"/term/res/layui/lay/kit/"
+		}).use(["laydate", "form", "commons"], function() {
 			var form = layui.form, $ = layui.$;
 			
 			// 监听提交

@@ -2,11 +2,15 @@ package com.fishkj.starter.term.socket;
 
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Machine implements Serializable {
 
 	private static final long serialVersionUID = 2267325419527164577L;
@@ -40,4 +44,9 @@ public class Machine implements Serializable {
 	 * 登录端口号
 	 */
 	private Integer port;
+	
+	/**
+	 * 备注说明
+	 */
+	private String remark;
 }

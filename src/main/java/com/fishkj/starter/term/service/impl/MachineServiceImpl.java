@@ -35,6 +35,7 @@ public class MachineServiceImpl implements MachineService {
 				.userName(server.getUserName())
 				.pwd(server.getPwd())
 				.port(server.getPort())
+				.remark(server.getRemark())
 				.build();
 			}).collect(Collectors.toList());
 		} else {
@@ -53,6 +54,7 @@ public class MachineServiceImpl implements MachineService {
 				.userName(machine.getUserName())
 				.pwd(machine.getPwd())
 				.port(machine.getPort())
+				.remark(machine.getRemark())
 				.build());
 		}
 	}
@@ -80,6 +82,7 @@ public class MachineServiceImpl implements MachineService {
 					.userName(server.getUserName())
 					.pwd(server.getPwd())
 					.port(server.getPort())
+					.remark(server.getRemark())
 					.build());
 		} else {
 			return Optional.empty();
