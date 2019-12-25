@@ -12,7 +12,9 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
+    # 文件数据库
 #    url: ${db_url:jdbc:h2:./target/db/term}
+    # 内存数据库
     url: ${db_url:jdbc:h2:~/test}
     username: ${db_user:sa}
     password: ${db_pwd:sa}
