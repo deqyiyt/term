@@ -38,7 +38,7 @@ public class TermResourceController {
 	@GetMapping(value= "/res/**//{path:.+}.js", produces="text/javascript;charset=utf-8")
 	public String js(HttpServletRequest request) {
 		String filePath = resourcePath + request.getServletPath().replace("/term/res", "");
-		return Utils.readFromResource(filePath);
+		return ScriptsUtils.obfuscateScript(Utils.readFromResource(filePath));
 	}
 	
 	@GetMapping(value= {"/res/**//{path:.+}.jpg"}, produces = MediaType.IMAGE_JPEG_VALUE)
