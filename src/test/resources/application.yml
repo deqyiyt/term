@@ -1,0 +1,6 @@
+server:
+  port: ${random.int[10000,19999]}
+
+logging: 
+  level: 
+    com.fishkj: DEBUG
