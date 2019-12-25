@@ -5,6 +5,7 @@
 	<groupId>com.fishkj.starter</groupId>
 	<artifactId>fish-starter-term</artifactId>
 	<version>1.0</version>
+	<packaging>jar</packaging>
 	<name>fish-starter-term</name>
 	<description>shell和ftp控制台</description>
 	<url>https://github.com/deqyiyt/term</url>
@@ -31,6 +32,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -86,11 +92,46 @@
 
 	<build>
 		<plugins>
+			<!-- 
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+				<executions>
+		            <execution>
+		                <goals>
+		                    <goal>repackage</goal>
+		                </goals>
+		            </execution>
+		        </executions>
+		        <configuration>
+		            <fork>true</fork>
+		        </configuration>
+			</plugin> -->
+            <!-- 发布源码 -->
+            <plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+	  				<execution>
+	  					<phase>package</phase>
+	  					<goals>
+	  						<goal>jar-no-fork</goal>
+	  					</goals>
+	  				</execution>
+	  			</executions>
+            </plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 	</build>
 
 </project>
