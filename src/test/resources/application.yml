@@ -15,7 +15,7 @@ spring:
     # 文件数据库
 #    url: ${db_url:jdbc:h2:./target/db/term}
     # 内存数据库
-    url: ${db_url:jdbc:h2:~/test}
+    url: ${db_url:jdbc:h2:mem:dbtest}
     username: ${db_user:sa}
     password: ${db_pwd:sa}
     driver-class-name: org.h2.Driver
