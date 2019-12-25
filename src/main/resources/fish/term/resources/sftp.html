@@ -157,7 +157,11 @@ layui.use(['laypage','layer', 'table', "upload", 'jquery'], function(){
 				});
 				break;
 			case 'delete':
-				layer.msg("确定删除 <span style='color:red'>" + data.filename + "</span> 吗？", {
+				var msg = "确定删除 <span style='color:red'>" + data.filename + "</span> 吗？";
+				if(data.directory) {
+					msg += "<br/><font style='color:red'>提示：只能删除空文件夹</font>"
+				}
+				layer.msg(msg, {
 					time : 0 // 不自动关闭
 					,btn : ["确定","取消"]
 					,yes : function(ind) {
@@ -254,7 +258,7 @@ layui.use(['laypage','layer', 'table', "upload", 'jquery'], function(){
 				});
 				break;
 			case 'delete':
-				layer.msg("确定删除选择的文件吗？", {
+				layer.msg("确定删除选择的文件吗？<br/><font style='color:red'>提示：只能删除空文件夹</font>", {
 					time : 0 // 不自动关闭
 					,btn : ["确定","取消"]
 					,yes : function(ind) {

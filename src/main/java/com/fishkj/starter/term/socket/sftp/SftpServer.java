@@ -129,10 +129,7 @@ public class SftpServer {
 				if(log.isErrorEnabled()) {
 					log.error("An error occured, websocket is closed.");
 				}
-				session.close();
-				if (sftpClient != null) {
-		  			sftpClient.disconnect();
-		  		}
+				// 失败信息发送给客户端
 			}
     	}
     }
