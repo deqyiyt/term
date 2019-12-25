@@ -275,4 +275,13 @@ layui.config({
 	webSocket.onclose = function(event) {
 		console.log("Connection close.");
 	};
+	var keepalive = function() {
+		setTimeout(function () {
+			webSocket.send(JSON.stringify({
+				"tyue":"keepalive"
+			}));
+			keepalive();
+		}, 20000);
+	}
+	keepalive();
 });

@@ -101,9 +101,14 @@ public class TerminalServer {
      **/
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
-    	if(log.isDebugEnabled()) {
+    	/*if(log.isDebugEnabled()) {
     		log.debug("收到消息 {}", message);
+    	}*/
+    	
+    	if("keepalive".equals(message)) {
+    		return;
     	}
+    	
     	//处理连接
 		try {
 			//当客户端不为空的情况

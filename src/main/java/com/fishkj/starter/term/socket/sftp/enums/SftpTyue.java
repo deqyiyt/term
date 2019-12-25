@@ -19,7 +19,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public enum SftpTyue implements SftpCommand {
-	UP("up","上一级") {
+	KEEPALIVE("keepalive","心跳") {
+		@Override
+		public void exec(Session session, SftpClient client, SftpMessage message) throws IOException {
+			
+		}
+	}
+    ,UP("up","上一级") {
 		@Override
 		public void exec(Session session, SftpClient client, SftpMessage message) throws IOException {
 			SftpBean sftp = client.changeUp();

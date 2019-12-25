@@ -47,6 +47,14 @@ webSocket.onclose = function(event) {
 	term.write("\nConnection closed.");
 };
 
+var keepalive = function() {
+	setTimeout(function () {
+		webSocket.send("keepalive");
+		keepalive();
+	}, 20000);
+}
+keepalive();
+
 var width = $('#term').width();
 var height = $(window).height() - 65;
 var term = new Terminal({

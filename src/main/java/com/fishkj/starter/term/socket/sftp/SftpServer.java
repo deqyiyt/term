@@ -113,9 +113,9 @@ public class SftpServer {
      **/
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
-    	if(log.isDebugEnabled()) {
+    	/*if(log.isDebugEnabled()) {
 			log.debug("接收到消息：{}", message);
-		}
+		}*/
     	if(StringUtils.hasText(message)) {
 	    	//处理连接
 			try {
