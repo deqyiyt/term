@@ -33,9 +33,7 @@ public class MachineServiceImpl implements MachineService {
 				.serverName(server.getServerName())
 				.hostName(server.getHostName())
 				.userName(server.getUserName())
-				.pwd(server.getPwd())
 				.port(server.getPort())
-				.remark(server.getRemark())
 				.build();
 			}).collect(Collectors.toList());
 		} else {
@@ -47,6 +45,22 @@ public class MachineServiceImpl implements MachineService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public void saveOrUpdate(Machine machine) {
 		if(machine != null) {
+			if(StringUtils.hasText(machine.getId())) {
+				Optional<TermServer> optional = repository.findById(machine.getId());
+				if(optional.isPresent()) {
+					TermServer server = optional.get();
+					server.setServerName(machine.getServerName());
+					server.setHostName(machine.getHostName());
+					server.setUserName(machine.getUserName());
+					if(StringUtils.hasText(machine.getPwd())) {
+						server.setPwd(machine.getPwd());
+					}
+					server.setPort(machine.getPort());
+					server.setRemark(machine.getRemark());
+					return;
+				}
+			}
+		
 			repository.save(TermServer.builder()
 				.id(machine.getId())
 				.serverName(machine.getServerName())
