@@ -38,6 +38,7 @@
 							<table class="layui-hide" id="layuiTable" lay-filter="layuiTable"></table>
 							<script type="text/html" id="toolbar">
 								<div class="layui-btn-container toolbar-btn">
+									<a class="layui-btn layui-btn-sm" id="uploadfile"><i class="layui-icon">&#xe681;</i> 上传</a>
 									<a class="layui-btn layui-btn-sm" lay-event="addfile"><i class="layui-icon">&#xe608;</i> 文件</a>
 									<a class="layui-btn layui-btn-sm" lay-event="addfolder"><i class="layui-icon">&#xe608;</i> 文件夹</a>
 									<a class="layui-btn layui-btn-sm" lay-event="delete"><i class="layui-icon">&#xe640;</i> 删除</a>
@@ -52,9 +53,10 @@
 </body>
 <script src="/term/layui/layui.js"></script>
 <script type="text/javascript">
-layui.use(['laypage','layer', 'table', 'jquery'], function(){
+layui.use(['laypage','layer', 'table', "upload", 'jquery'], function(){
 	var layer = layui.layer
 	  ,table = layui.table
+	  ,upload = layui.upload
 	  ,$ = layui.jquery;
 	
 	
@@ -94,6 +96,19 @@ layui.use(['laypage','layer', 'table', 'jquery'], function(){
 					return _btns.join("");
 				}}
 			]]
+			,done: function(res, curr, count){
+				var uploadInst = upload.render({
+				    elem: '#uploadfile' //绑定元素
+				    ,url: '/term/sftp/upload/${sid}' //上传接口
+				    ,accept:'file'
+				    ,done: function(res, index, upload){
+						layer.msg(res.msg);
+					}
+					,error:function(index,upload){
+						layer.msg("上传失败");
+					}
+				});
+			}
 		});
 	}
 	loadTable(new Array());

@@ -1,9 +1,8 @@
 package com.fishkj.starter.term.socket.sftp;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,14 +10,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fishkj.starter.term.socket.Machine;
 import com.fishkj.starter.term.socket.sftp.beans.SftpBean;
 import com.fishkj.starter.term.socket.sftp.beans.SftpFileBean;
+import com.fishkj.starter.term.utils.JsonUtils;
 
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.SFTPv3Client;
@@ -168,31 +168,31 @@ public class SftpClient {
 	}
 	
 	//upload file to current catalog
-	public void uploadFile(File file, String fileName, Map<String, Object> session) throws IOException {
+	public void uploadFile(MultipartFile file, javax.websocket.Session session) throws IOException {
 		
 		if (file == null)
 			return ;
-		FileInputStream fis = new FileInputStream(file);
-		
-		long totalSize = file.length();
-		byte[] b = new byte[1024*8];
-		long count = 0;
-		
-		SFTPv3FileHandle handle = client.createFile(getCurrentCatalog() + "/" + fileName);
-		DecimalFormat df = new DecimalFormat("#.00");
-		
-		while (true) {
+		try(InputStream fis = file.getInputStream()) {
+			long totalSize = file.getSize();
+			byte[] b = new byte[1024*8];
+			long count = 0;
 			
-			int len = fis.read(b);
-			if (len == -1)
-				break;
-			client.write(handle, count, b, 0, len);
-			count += len;
+			SFTPv3FileHandle handle = client.createFile(getCurrentCatalog() + "/" + file.getOriginalFilename());
+			DecimalFormat df = new DecimalFormat("#.00");
 			
-			session.put("progress", "{\"percent\":\""+df.format((double)count / totalSize * 100)+"%\",\"num\":\""+(int)((double)count / totalSize)+"\"}");
+			while (true) {
+				int len = fis.read(b);
+				if (len == -1)
+					break;
+				client.write(handle, count, b, 0, len);
+				count += len;
+				
+				session.getBasicRemote().sendText("{\"percent\":\""+df.format((double)count / totalSize * 100)+"%\",\"num\":\""+(int)((double)count / totalSize)+"\"}");
+			}
+			client.closeFile(handle);
+		} finally {
+			session.getBasicRemote().sendText(JsonUtils.buildNormalBinder().toJson(ls()));
 		}
-		client.closeFile(handle);
-		fis.close();
 	}
 	
 	//download file from current catalog

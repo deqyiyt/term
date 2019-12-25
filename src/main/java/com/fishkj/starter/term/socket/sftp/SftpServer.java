@@ -158,12 +158,6 @@ public class SftpServer {
         this.session.getBasicRemote().sendText(message);
     }
     
-    public SftpClient getSftpClient() {
-		return sftpClient;
-	}
-	public String getSid() {
-		return sid;
-	}
 	public static Optional<SftpClient> getSftpClient(String sid) {
     	if(StringUtils.hasText(sid)) {
     		return webSocketSet.stream().filter(a -> a.getSid().equals(sid)).map(a -> a.getSftpClient()).findFirst();
@@ -171,5 +165,23 @@ public class SftpServer {
     		return Optional.empty();
     	}
     }
+	
+	public static Optional<SftpServer> getSftpServer(String sid) {
+    	if(StringUtils.hasText(sid)) {
+    		return webSocketSet.stream().filter(a -> a.getSid().equals(sid)).findFirst();
+    	} else {
+    		return Optional.empty();
+    	}
+    }
+	
+	public Session getSession() {
+		return session;
+	}
+	public SftpClient getSftpClient() {
+		return sftpClient;
+	}
+	public String getSid() {
+		return sid;
+	}
 }
 

@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fishkj.starter.term.manager.VelocityManager;
 import com.fishkj.starter.term.socket.sftp.SftpClient;
@@ -48,6 +51,35 @@ public class TermSftpController {
 		parameters.put("sid", UUIDUtils.createSystemDataPrimaryKey());
 		String filePath = resourcePath + "/sftp.html";
 		return velocityManager.parseVMContent(Utils.readFromResource(filePath), parameters);
+	}
+	
+	/**
+	 * 文件上传
+	 * @author jiuzhou.hu
+	 * @date 2019年12月25日 上午12:51:11
+	 * @param id
+	 * @return
+	 */
+	@PostMapping(value= "/term/sftp/upload/{sid}")
+	public Map<String, Object> upload(@PathVariable(value="sid") String sid, @RequestParam("file") MultipartFile file) {
+		Map<String, Object> result = new HashMap<>();
+		Optional<SftpServer> opt = SftpServer.getSftpServer(sid);
+		if(opt.isPresent()) {
+			SftpServer server = opt.get();
+			try {
+				server.getSftpClient().uploadFile(file, server.getSession());
+				result.put("code", 0);
+				result.put("msg", "上传成功");
+			} catch (Exception e) {
+				result.put("code", -1);
+				result.put("msg", "上传失败");
+			}
+		} else {
+			result.put("code", -1);
+			result.put("msg", "通道已关闭");
+		}
+		
+		return result;
 	}
 	
 	/**
