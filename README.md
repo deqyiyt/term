@@ -9,7 +9,10 @@
 - ORM：springjpa
 
 ## 使用方式
-1. 执行test中的Application
+1. 执行test中的Application，权限使用基础security功能  
+	默认用户名:user  
+	密码：见控制台随机输出  
+	端口：见控制台随机输出  
 2. 项目中引用
 ```xml
 	<dependency>
