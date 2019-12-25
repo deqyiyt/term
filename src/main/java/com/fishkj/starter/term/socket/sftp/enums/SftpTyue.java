@@ -69,16 +69,18 @@ public enum SftpTyue implements SftpCommand {
 	,REMOVE("remove","删除") {
 		@Override
 		public void exec(Session session, SftpClient client, SftpMessage message) throws IOException {
-			if(log.isDebugEnabled()) {
-				log.debug("删除文件：{}", message.getFileName());
+			if(!".".equals(message.getFileName()) && !"..".equals(message.getFileName())) {
+				if(log.isDebugEnabled()) {
+					log.debug("删除文件：{}", message.getFileName());
+				}
+				if(message.getDirectory()) {
+					client.deleteFolder(message.getFileName());
+				} else {
+					client.deleteFile(message.getFileName());
+				}
+				SftpBean sftp = client.ls();
+				session.getBasicRemote().sendText(JsonUtils.buildNormalBinder().toJson(sftp));
 			}
-			if(message.getDirectory()) {
-				client.deleteFolder(message.getFileName());
-			} else {
-				client.deleteFile(message.getFileName());
-			}
-			SftpBean sftp = client.ls();
-			session.getBasicRemote().sendText(JsonUtils.buildNormalBinder().toJson(sftp));
 		}
 	}
 	;

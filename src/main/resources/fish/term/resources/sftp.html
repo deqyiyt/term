@@ -265,11 +265,13 @@ layui.use(['laypage','layer', 'table', "upload", 'jquery'], function(){
 						layer.close(ind);
 						var array = new Array();
 						$.each(data, function() {
-							webSocket.send(JSON.stringify({
-								"tyue":"remove"
-								,"fileName": this.filename
-								,"directory": this.directory
-							}));
+							if(data.filename != ".." && data.filename != ".") {
+								webSocket.send(JSON.stringify({
+									"tyue":"remove"
+									,"fileName": this.filename
+									,"directory": this.directory
+								}));
+							}
 						});
 						
 					}
