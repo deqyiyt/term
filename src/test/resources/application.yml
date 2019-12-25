@@ -1,6 +1,11 @@
 server:
   port: ${random.int[10000,19999]}
 
+spring: 
+  security: 
+    user: 
+      name: admin
+      password: 123456
 logging: 
   level: 
     com.fishkj: DEBUG

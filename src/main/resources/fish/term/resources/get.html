@@ -5,6 +5,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW"/>
 	<link rel="stylesheet" href="/term/layui/css/layui.css">
+	<headers>
+        <frame-options policy="SAMEORIGIN"/>
+    </headers>
 </head>
 <body>
 	<form action="" class="layui-form" style="padding: 20px 30px 0 0;">
@@ -44,6 +47,7 @@
 	    </div>
 	</form>
 	<script src="/term/layui/layui.js"></script>
+	<script src="/term/csrf.js"></script>
 	<script type="text/javascript">
 		layui.use(["laydate", "form"], function() {
 			var form = layui.form, $ = layui.$;

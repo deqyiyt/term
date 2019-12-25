@@ -1,14 +1,19 @@
 package com.fishkj.starter.term.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fishkj.starter.term.utils.JsonUtils;
+import com.fishkj.starter.term.utils.ScriptsUtils;
 import com.fishkj.starter.term.utils.Utils;
 
 /**
@@ -57,4 +62,19 @@ public class TermResourceController {
 		String filePath = resourcePath + request.getServletPath().replace("/term", "");
 		return Utils.readByteArrayFromResource(filePath);
 	}
+	
+	@GetMapping(value="/term/csrf.js", produces="application/javascript; charset=utf-8")
+    public String fishkjConfig(CsrfToken token) {
+    	StringBuffer srcipt = new StringBuffer("var fish = fish||{};");
+    	Map<String, Object> map = new HashMap<>();
+    	if(token != null) {
+    		map.put("csrfHeaderName", token.getHeaderName());
+    		map.put("csrfParameterName", token.getParameterName());
+    		map.put("csrfToken", token.getToken());
+    	}
+    	
+    	srcipt.append("fish.csrf=").append(JsonUtils.buildNormalBinder().toJson(map)).append(";");
+    	
+        return ScriptsUtils.obfuscateScript(srcipt.toString());
+    }
 }
