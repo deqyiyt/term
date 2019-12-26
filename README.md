@@ -2,7 +2,7 @@
 基于springboot插件式开发web shell和sftp控制台，目前仅支持linux使用用户名和密码访问  
 可以扩展做服务器大屏监控，服务器性能指标，堡垒机，服务器权限，操作日志等
 
-## 在线体验
+## 在线快速体验
 [http://term.fishkj.com](http://term.fishkj.com "http://term.fishkj.com")  
 用户名：test  
 密码：test  
@@ -57,6 +57,11 @@
 ![image](https://github.com/deqyiyt/term/raw/master/images/terminal.png)
 - ftp 控制台
 ![image](https://github.com/deqyiyt/term/raw/master/images/sftp.png)
+
+## 交流、反馈交流
+QQ群：858382604  
+开发者姓名：胡久洲  
+开发者QQ：200687304  
 
 ## 许可证
 
