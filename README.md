@@ -1,5 +1,6 @@
 # Web ssh shell & sftp
 基于springboot插件式开发web shell和sftp控制台，目前仅支持linux使用用户名和密码访问  
+可以扩展做服务器大屏监控，服务器性能指标，堡垒机，服务器权限，操作日志等
 
 ## 在线体验
 [http://term.fishkj.com](http://term.fishkj.com "http://term.fishkj.com")  
