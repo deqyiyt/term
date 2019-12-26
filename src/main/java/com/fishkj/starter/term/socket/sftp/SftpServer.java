@@ -125,7 +125,6 @@ public class SftpServer {
 					sftpMessage.getTyue().exec(session, sftpClient, sftpMessage);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
 				if(log.isErrorEnabled()) {
 					log.error("An error occured, websocket is closed.");
 				}

@@ -34,6 +34,8 @@ public class TermServer implements Serializable {
 	@Column(length = 32, nullable=false)
 	private String id;
 	
+	private String userId;
+	
 	/**
 	 * 服务器名称
 	 */

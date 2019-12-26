@@ -21,6 +21,11 @@ public class Machine implements Serializable {
 	private String id;
 	
 	/**
+	 * 用户
+	 */
+	private String userId;
+	
+	/**
 	 * 服务器名称
 	 */
 	private String serverName;

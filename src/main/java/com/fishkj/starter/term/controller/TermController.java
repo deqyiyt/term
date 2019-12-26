@@ -1,5 +1,6 @@
 package com.fishkj.starter.term.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +58,9 @@ public class TermController {
 	 * @return
 	 */
 	@PostMapping(value= "/term.json")
-	public Map<String, Object> listData() {
-		List<Machine> data = machineService.list();
+	public Map<String, Object> listData(Principal principal) {
+		String userName = principal == null?null:principal.getName();
+		List<Machine> data = machineService.list(userName);
 		Map<String, Object> result = new HashMap<>();
 		result.put("code", 0);
 		result.put("count", data.size());
@@ -90,7 +92,9 @@ public class TermController {
 	 * @return
 	 */
 	@PutMapping(value= "/term")
-	public HttpEntity<String> save(@RequestBody Machine machine) {
+	public HttpEntity<String> save(Principal principal, @RequestBody Machine machine) {
+		String userName = principal == null?null:principal.getName();
+		machine.setUserId(userName);
 		machineService.saveOrUpdate(machine);
 		return new HttpEntity<String>("success");
 	}

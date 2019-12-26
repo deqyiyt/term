@@ -6,6 +6,8 @@ spring:
     user: 
       name: ${user:admin}
       password: ${pwd:123456}
+      roles: 
+      - ADMIN
   jpa: 
     show-sql: true
     database: H2

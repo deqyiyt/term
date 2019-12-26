@@ -13,12 +13,14 @@ import org.springframework.util.StringUtils;
 import com.fishkj.starter.term.socket.Machine;
 
 import ch.ethz.ssh2.Connection;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * shell 控制台
  * @date: 2019年12月25日 上午12:39:44
  * @author: jiuzhou.hu
  */
+@Slf4j
 public class SshClient {
 	
 	private Connection conn;
@@ -43,7 +45,9 @@ public class SshClient {
 			out = sess.getStdin();
 			inToShell = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			if(log.isErrorEnabled()) {
+				log.error("连接关闭，user={}，id={}，host={}，e={}", machine.getUserId(), machine.getId(), machine.getHostName(), e.getMessage());
+			}
 			return false;
 		}
 		return true;

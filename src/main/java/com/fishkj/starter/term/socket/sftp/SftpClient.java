@@ -55,7 +55,9 @@ public class SftpClient {
 			//init the current catalogs
 			initCatalogs(client.canonicalPath("."));
 		} catch (IOException e) {
-			e.printStackTrace();
+			if(log.isErrorEnabled()) {
+				log.error("连接关闭，user={}，id={}，host={}，e={}", m.getUserId(), m.getId(), m.getHostName(), e.getMessage());
+			}
 			return false;
 		}
 		return true;

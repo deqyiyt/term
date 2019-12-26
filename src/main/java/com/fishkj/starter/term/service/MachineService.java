@@ -8,12 +8,13 @@ import com.fishkj.starter.term.socket.Machine;
 public interface MachineService {
 	
 	/**
-	 * 查询所有服务器列表
+	 * 根据用户查询所有服务器列表
 	 * @author jiuzhou.hu
-	 * @date 2019年12月25日 上午12:27:10
+	 * @date 2019年12月26日 下午12:31:29
+	 * @param userId
 	 * @return
 	 */
-	List<Machine> list();
+	List<Machine> list(String userId);
 	
 	/**
 	 * 根据ID获取单个服务器配置

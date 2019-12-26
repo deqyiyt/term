@@ -24,8 +24,13 @@ public class MachineServiceImpl implements MachineService {
 	private final TermServerRepository repository;
 	
 	@Override
-	public List<Machine> list() {
-		List<TermServer> items = repository.findAll();
+	public List<Machine> list(String userId) {
+		List<TermServer> items = new ArrayList<>();
+		if(StringUtils.hasText(userId)) {
+			items = repository.findByUserId(userId);
+		} else {
+			items = repository.findAll();
+		}
 		if(items != null && !items.isEmpty()) {
 			return items.stream().map(server -> {
 				return Machine.builder()
@@ -52,6 +57,7 @@ public class MachineServiceImpl implements MachineService {
 					server.setServerName(machine.getServerName());
 					server.setHostName(machine.getHostName());
 					server.setUserName(machine.getUserName());
+					server.setUserId(machine.getUserId());
 					if(StringUtils.hasText(machine.getPwd())) {
 						server.setPwd(machine.getPwd());
 					}
@@ -67,6 +73,7 @@ public class MachineServiceImpl implements MachineService {
 				.hostName(machine.getHostName())
 				.userName(machine.getUserName())
 				.pwd(machine.getPwd())
+				.userId(machine.getUserId())
 				.port(machine.getPort())
 				.remark(machine.getRemark())
 				.build());
@@ -96,6 +103,7 @@ public class MachineServiceImpl implements MachineService {
 					.userName(server.getUserName())
 					.pwd(server.getPwd())
 					.port(server.getPort())
+					.userId(server.getUserId())
 					.remark(server.getRemark())
 					.build());
 		} else {

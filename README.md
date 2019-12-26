@@ -1,5 +1,10 @@
 # Web ssh shell & sftp
-基于springboot插件式开发web shell和sftp控制台，目前仅支持linux使用用户名和密码访问
+基于springboot插件式开发web shell和sftp控制台，目前仅支持linux使用用户名和密码访问  
+
+## 在线体验
+[http://term.fishkj.com](http://term.fishkj.com "http://term.fishkj.com")  
+用户名：test  
+密码：test  
 
 ## 使用技术&框架
 - 后端：springboot 2.x，理论上使用springboot 1.x也可以
@@ -10,7 +15,7 @@
 
 ## 使用方式
 1. 执行test中的Application，权限使用基础security功能  
-	用户名:admin  
+	用户名：admin  
 	密码：123456  
 	端口：见控制台随机输出  
 2. 项目中引用

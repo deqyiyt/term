@@ -128,7 +128,6 @@ public class TerminalServer {
 				sshClient.write(new String(message.getBytes(), "UTF-8"));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			sendMessage("An error occured, websocket is closed.");
 			session.close();
 			if (sshClient != null) {
